@@ -1,0 +1,15 @@
+#!/bin/sh
+LD_BAK=$LD_LIBRARY_PATH
+PATH_BAK=$PATH
+
+LD_LIBRARY_PATH=./bgd-runtime:$LD_LIBRARY_PATH
+PATH=./bgd-runtime:$PATH
+
+echo 2 > /proc/cpu/alignment
+
+bgdi main.dcb
+
+LD_LIBRARY_PATH=$LD_BAK
+PATH=$PATH_BAK
+cd /usr/gp2x
+exec /usr/gp2x/gp2xmenu
