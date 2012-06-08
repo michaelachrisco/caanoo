@@ -1,0 +1,29 @@
+#!/bin/sh
+unset OS_ID
+
+## Is important set first bgd-runtime folder
+LD_LIBRARY_PATH_BAK=$LD_LIBRARY_PATH
+PATH_BAK=$PATH
+
+LD_LIBRARY_PATH=../bgd-runtime:$LD_LIBRARY_PATH
+PATH=../bgd-runtime:$PATH
+
+### For use Wiz games on Caanoo uncomment the next lines
+#OS_ID=8
+#export OS_ID
+
+echo 2 > /proc/cpu/alignment
+
+for prg in *.prg; do
+    name=`basename $prg .prg`
+    bgdc $prg
+    bgdi $name
+done
+
+sync
+
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH_BAK
+PATH=$PATH_BAK
+
+cd /usr/gp2x
+exec /usr/gp2x/gp2xmenu
